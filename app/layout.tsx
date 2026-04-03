@@ -22,10 +22,6 @@ export const metadata: Metadata = {
     locale: "ca_ES",
     type: "website",
   },
-  robots: {
-    index: true,
-    follow: true,
-  },
 };
 
 export default function RootLayout({
@@ -35,7 +31,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ca" className={`${inter.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col font-sans bg-zinc-50 text-zinc-900">
+      {/* IMPORTANT: He restaurat 'flex-col' i 'font-sans' perquè 
+          Tailwind torni a aplicar els estils correctament.
+      */}
+      <body className={`${inter.className} min-h-full flex flex-col font-sans bg-zinc-50 text-zinc-900`}>
         {children}
       </body>
     </html>
