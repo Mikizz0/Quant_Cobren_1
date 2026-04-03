@@ -3,8 +3,8 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { 
   Search, Landmark, TrendingUp, ShieldCheck, 
-  ExternalLink, ChevronDown, ChevronLeft, ChevronRight, Info, Scale, MessageSquare, AlertTriangle, Calculator, Circle, Map as MapIcon
-} from "lucide-react"; // He tret 'Download' i 'Send' que no es feien servir
+  ExternalLink, ChevronDown, ChevronLeft, ChevronRight, Info, Scale, MessageSquare, AlertTriangle, Calculator, Circle, Map as MapIcon, Share2, Heart, Mail
+} from "lucide-react"; 
 import { supabase } from "@/lib/supabase/client";
 
 // --- CONFIGURACIÓ DE CONSTANTS 2026 ---
@@ -117,7 +117,7 @@ export default function Home() {
 
   const handleReport = () => {
     if(!reportText) return;
-    alert("Gràcies! Hem rebut el teu comentari.");
+    alert("Gràcies! Hem rebut el teu missatge.");
     setReportText("");
   };
 
@@ -131,7 +131,7 @@ export default function Home() {
             <div className="bg-indigo-600 p-1.5 rounded-lg text-white"><TrendingUp className="size-5" /></div>
             <h1 className="text-xl font-black tracking-tighter uppercase">Quant<span className="text-indigo-600">Cobren</span>.cat</h1>
           </div>
-          <nav className="flex bg-zinc-100 p-1 rounded-xl overflow-x-auto no-scrollbar">
+          <nav className="flex items-center gap-1 bg-zinc-100 p-1 rounded-xl overflow-x-auto no-scrollbar w-full md:w-auto">
             {["inici", "explora", "rankings", "sobre"].map((id) => (
               <button key={id} onClick={() => setViewTab(id as any)} className={`px-4 py-2 text-[10px] font-black rounded-lg transition uppercase whitespace-nowrap ${viewTab === id ? 'bg-white text-indigo-600 shadow-sm' : 'text-zinc-400 hover:text-zinc-600'}`}>
                 {id === "rankings" ? "RÀNKINGS" : id === "sobre" ? "SOBRE NOSALTRES" : id}
@@ -174,13 +174,13 @@ export default function Home() {
                 </div>
             </div>
 
-            <div className="bg-indigo-600 rounded-[2.5rem] p-10 text-white shadow-2xl relative overflow-hidden transition-all hover:scale-[1.005]">
+            <div className="bg-indigo-600 rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-10 text-white shadow-2xl relative overflow-hidden transition-all hover:scale-[1.005]">
                 <div className="relative z-10 space-y-2">
                    <p className="text-indigo-200 text-[10px] font-black uppercase tracking-[0.2em]">{stats.titol}</p>
-                   <p className="text-5xl sm:text-7xl font-black tabular-nums tracking-tighter">{formatEuro(stats.total)}</p>
+                   <p className="text-4xl sm:text-5xl md:text-7xl font-black tabular-nums tracking-tighter break-words">{formatEuro(stats.total)}</p>
                    <p className="text-indigo-100/60 text-xs font-bold uppercase tracking-widest">Dades oficials de {stats.count} càrrecs públics</p>
                 </div>
-                <Landmark className="absolute -right-12 -bottom-12 size-64 opacity-10 rotate-12 text-white" />
+                <Landmark className="absolute -right-8 -bottom-8 sm:-right-12 sm:-bottom-12 size-48 sm:size-64 opacity-10 rotate-12 text-white" />
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -308,14 +308,27 @@ export default function Home() {
                 </div>
              </div>
 
-             <div className="bg-white p-10 rounded-[2.5rem] border border-zinc-200 space-y-6">
-                <div className="flex items-center gap-3">
-                   <div className="bg-indigo-100 p-2 rounded-xl text-indigo-600"><MessageSquare className="size-5" /></div>
-                   <h4 className="font-black uppercase text-xs tracking-widest">Reportar errors o suggeriments</h4>
+             <div className="bg-white p-10 rounded-[2.5rem] border border-zinc-200 grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div className="space-y-6">
+                   <div className="flex items-center gap-3">
+                      <div className="bg-indigo-100 p-2 rounded-xl text-indigo-600"><Mail className="size-5" /></div>
+                      <h4 className="font-black uppercase text-xs tracking-widest">Contacte i Col·laboració</h4>
+                   </div>
+                   <p className="text-[10px] text-zinc-500 font-bold leading-relaxed">Tens propostes de millora, dubtes, o vols donar un cop de mà amb les dades o el codi? Parlem-ne!</p>
+                   <button className="w-full bg-zinc-900 text-white px-6 py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-zinc-800 transition-all flex items-center justify-center gap-2">
+                      hola@quantcobren.cat
+                   </button>
                 </div>
-                <div className="flex flex-col sm:flex-row gap-3">
-                   <input type="text" placeholder="Has vist alguna dada incorrecta?" className="flex-1 bg-zinc-50 border border-zinc-100 p-4 rounded-2xl text-xs font-medium outline-none focus:ring-2 focus:ring-indigo-600" value={reportText} onChange={(e) => setReportText(e.target.value)} />
-                   <button onClick={handleReport} className="bg-indigo-600 text-white px-8 py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-indigo-700 transition-all flex items-center justify-center gap-2">Enviar</button>
+
+                <div className="space-y-6">
+                   <div className="flex items-center gap-3">
+                      <div className="bg-amber-100 p-2 rounded-xl text-amber-600"><MessageSquare className="size-5" /></div>
+                      <h4 className="font-black uppercase text-xs tracking-widest">Reportar una dada incorrecta</h4>
+                   </div>
+                   <div className="flex flex-col gap-3">
+                      <input type="text" placeholder="Quin representant o xifra és incorrecta?" className="w-full bg-zinc-50 border border-zinc-100 p-4 rounded-2xl text-xs font-medium outline-none focus:ring-2 focus:ring-indigo-600" value={reportText} onChange={(e) => setReportText(e.target.value)} />
+                      <button onClick={handleReport} className="w-full bg-indigo-600 text-white px-8 py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-indigo-700 transition-all flex items-center justify-center gap-2">Enviar Avís</button>
+                   </div>
                 </div>
              </div>
 
@@ -340,7 +353,7 @@ export default function Home() {
         )}
       </main>
 
-      <footer className="bg-white border-t border-zinc-200 py-16">
+      <footer className="bg-white border-t border-zinc-200 pt-16 pb-8 mt-auto">
         <div className="mx-auto max-w-7xl px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 text-center md:text-left">
           <div className="space-y-4">
             <h4 className="font-black uppercase text-xs tracking-widest text-zinc-900">QuantCobren.cat</h4>
@@ -388,10 +401,28 @@ export default function Home() {
             </ul>
           </div>
 
-          <div className="bg-indigo-50 p-6 rounded-3xl space-y-2">
-            <h5 className="font-black uppercase text-[9px] text-indigo-600 tracking-[0.2em]">Referència SMI 2026</h5>
-            <p className="text-indigo-900 font-black text-2xl tracking-tighter">16.500 €</p>
+          <div className="space-y-6">
+            <div className="bg-indigo-50 p-6 rounded-3xl space-y-2">
+              <h5 className="font-black uppercase text-[9px] text-indigo-600 tracking-[0.2em]">Referència SMI 2026</h5>
+              <p className="text-indigo-900 font-black text-2xl tracking-tighter">16.500 €</p>
+            </div>
+            <div className="bg-zinc-50 border border-zinc-200 p-6 rounded-3xl space-y-4 flex flex-col items-center md:items-start text-center md:text-left">
+              <h5 className="font-black uppercase text-[9px] text-zinc-500 tracking-[0.2em] flex items-center gap-2"><Heart className="size-3 text-red-500" /> Dona suport</h5>
+              <p className="text-[9px] text-zinc-400 font-bold leading-relaxed">Aquest projecte és gratuït i sense anuncis. Ajuda'ns a mantenir els servidors i domini actius.</p>
+              <button className="bg-zinc-900 text-white w-full py-3 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-zinc-800 transition-all">
+                Fer un donatiu
+              </button>
+            </div>
           </div>
+        </div>
+
+        {/* BOTTOM LEGAL BAR */}
+        <div className="mx-auto max-w-7xl px-4 mt-12 pt-8 border-t border-zinc-100 flex flex-col md:flex-row items-center justify-between gap-6 text-[9px] font-black uppercase text-zinc-400 tracking-widest">
+            <p>© 2026 QuantCobren.cat</p>
+            <div className="flex flex-wrap items-center justify-center md:justify-end gap-4 sm:gap-6">
+                <button className="hover:text-indigo-600 transition-colors">Avís Legal i Privacitat</button>
+                <button className="hover:text-indigo-600 transition-colors">Política de Cookies</button>
+            </div>
         </div>
       </footer>
     </div>
@@ -468,6 +499,10 @@ function PoliticCard({ p, userSalary }: { p: any, userSalary: number | "" }) {
               </div>
            </div>
         )}
+
+        <button className="w-full flex items-center justify-center gap-2 py-2 mt-2 bg-zinc-50 hover:bg-zinc-100 text-zinc-600 rounded-xl transition-colors text-[9px] font-black uppercase tracking-widest border border-zinc-200">
+          <Share2 className="size-3" /> Compartir
+        </button>
       </div>
     </div>
   );
